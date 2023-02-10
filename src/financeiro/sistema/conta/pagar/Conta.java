@@ -1,16 +1,18 @@
 package financeiro.sistema.conta.pagar;
 
-public class Conta {
+public abstract class Conta {
 	protected String descricao;
 	protected Double valor;
 	protected String dataVencimento;
-	protected  SituacaoConta situacaoConta;
+	protected SituacaoConta situacaoConta;
 	
 	public Conta(){
 		this.situacaoConta = SituacaoConta.PENDENTE;
 	}
 	
-	public void cancelar() {
+	public abstract void exibirDetalhes();
+	
+	public void cancelar() throws OperacaoContaException {
 		if(SituacaoConta.PAGA.equals(this.getSituacaoConta())) {
 			System.out.println("Essa despesa já foi paga: " + this.getDescricao() + ". ");
 		}else if(SituacaoConta.CANCELADA.equals(this.getSituacaoConta())) {

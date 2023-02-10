@@ -10,6 +10,14 @@ public class ContaReceber extends Conta{
 		
 	}
 	
+	
+	public void exibirDetalhes() {
+		System.out.println("*************************");
+		System.out.println("Detelhes da conta a receber: \n\n" + "FORNECEDOR: " + this.getCliente().getNome() + "\nDESCRIÇÃO: " + getDescricao() + "\nVALOR: " + getValor() + 
+				"\nVENCIMENTO: " + getDataVencimento() + "\n");
+	}
+	
+	
 	public ContaReceber(Cliente cliente, String descricao, Double valor, String dataVencimento) {
 		this.cliente = cliente;
 		this.descricao = descricao;
@@ -18,26 +26,24 @@ public class ContaReceber extends Conta{
 	}
 	
 	
-	public void cancelar () {
+	public void cancelar() throws OperacaoContaException{
 		if(this.getValor() > 50000) {
-			System.out.println("Não foi possível realizar o cancelamento de sua conta: " + getDescricao() + ". ");
+			throw new OperacaoContaException ("Não foi possível realizar o cancelamento de sua conta: " + getDescricao() + ". ");
 		}else {
 			super.cancelar();
 		}
 	}
 	
-	public void receber() {
+	public void receber() throws OperacaoContaException{
 		if(SituacaoConta.PAGA.equals(this.getSituacaoConta())) {
-			System.out.println("Não é possível receber uma conta que já foi paga: " + this.getDescricao() + ". ");
+			throw new OperacaoContaException ("Não é possível receber uma conta que já foi paga: " + this.getDescricao() + ". ");
 		} else if(SituacaoConta.CANCELADA.equals(getSituacaoConta())) {
-			System.out.println("Não é possível recever uma conta que já foi cancelada: " + this.getDescricao() + ". ");
+			throw new OperacaoContaException ("Não é possível recever uma conta que já foi cancelada: " + this.getDescricao() + ". ");
 		} else {
 			System.out.println("O pagamento da conta foi recebido com sucesso: " + this.getDescricao());
 		}
 		
 	}
-	
-	
 	
 	public Cliente getCliente() {
 		return cliente;
@@ -45,5 +51,8 @@ public class ContaReceber extends Conta{
 	public void setCliente(Cliente cliente) {
 		this.cliente = cliente;
 	}
+
+
+
 	
 }

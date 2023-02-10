@@ -8,7 +8,12 @@ public class ContaPagar extends Conta {
 	public ContaPagar() {
 		
 	}
-
+	
+	public void exibirDetalhes() {
+		System.out.println("*************************");
+		System.out.println("Detelhes da conta a pagar: \n\n" + "FORNECEDOR: " + this.getFornecedor().getNome() + "\nDESCRIÇÃO: " + getDescricao() + "\nVALOR: " + getValor() + 
+				"\nVENCIMENTO: " + getDataVencimento() + "\n");
+	} 
 	
 	public ContaPagar(Fornecedor fornecedor, String descricao, Double valor, String dataVencimento){
 		this.fornecedor = fornecedor;
@@ -18,11 +23,11 @@ public class ContaPagar extends Conta {
 	}
 
 
-	public void pagar() {
+	public void pagar() throws OperacaoContaException{
 		if(SituacaoConta.PAGA.equals(this.getSituacaoConta())) {
-			System.out.println("Erro: A conta já esta paga: " + this.getDescricao() + ". "); 
+			throw new OperacaoContaException("Erro: A conta já esta paga: " + this.getDescricao() + ". "); 
 		} else if (SituacaoConta.CANCELADA.equals(this.getSituacaoConta())){
-			System.out.println("Erro: Não foi possível realizar o pagamento dessa despesa pois ela foi cancelada: " + this.getDescricao() + ". ");
+			throw new OperacaoContaException("Erro: Não foi possível realizar o pagamento dessa despesa pois ela foi cancelada: " + this.getDescricao() + ". ");
 		} else {
 			System.out.println("PAGAMENTO REALIZADO COM SUCESSO\n");
 			System.out.println("FORNECEDOR: " + this.getFornecedor().getNome() + "\nDESPESA: " + this.getDescricao() + "\nVALOR : " + this.getValor() 
@@ -38,5 +43,9 @@ public class ContaPagar extends Conta {
 	public void setFornecedor(Fornecedor fornecedor) {
 		this.fornecedor = fornecedor;
 	}
+
+
+	
+	
 	
 }

@@ -1,6 +1,9 @@
 package financeiro.sistema.fornecedor;
+import financeiro.sistema.conta.pagar.Conta;
 import financeiro.sistema.conta.pagar.ContaPagar;
 import financeiro.sistema.conta.pagar.ContaReceber;
+import financeiro.sistema.conta.pagar.OperacaoContaException;
+import financeiro.sistema.conta.pagar.RelatorioContas;
 
 public class Principal {
 
@@ -35,21 +38,50 @@ public class Principal {
 		
 		ContaReceber contaReceber2 = new ContaReceber (telecom, "Manutenção em sistema de conta online", 53200d, "130/05/2012");
 		
+		RelatorioContas relatorio  = new RelatorioContas();
+		Conta[] contas = new Conta[] {contaPagar1, contaPagar2, contaReceber1, contaReceber2};
+		relatorio.exibirListagem(contas);
 		
+		System.out.println("*************************");
 		
 		//pagamento e cancelamento de contas
-		contaPagar1.pagar();
+		try {
+			contaPagar1.pagar();
+		} catch(OperacaoContaException e) {
+			System.out.println(e.getMessage());
+		}
+		
 		System.out.println("----------------------");
 		
-		contaPagar2.pagar();
+		try {
+			contaPagar2.pagar();
+		} catch(OperacaoContaException e) {
+			System.out.println(e.getMessage());
+		}
+		System.out.println("----------------------");
+		
+		try {
+			contaPagar2.cancelar();
+		} catch(OperacaoContaException e) {
+			System.out.println(e.getMessage());
+		}	
 		System.out.println("----------------------");
 		
 		
-		contaPagar2.cancelar();
+		try {
+			contaReceber1.receber();
+		} catch(OperacaoContaException e) {
+			System.out.println(e.getMessage());
+		}
+		
 		System.out.println("----------------------");
-		contaReceber1.receber();
-		System.out.println("----------------------");
-		contaReceber2.cancelar();
+		
+		try{
+			contaReceber2.cancelar();
+		} catch(OperacaoContaException e) {
+			System.out.println(e.getMessage());
+		}
+		
 		System.out.println("----------------------");
 	}
 
